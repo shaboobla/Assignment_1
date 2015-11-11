@@ -5,6 +5,12 @@
  * @assignment TMA 1
  *
  *             This class implements Singly Linked List
+ * @param head
+ *            the head of the list
+ * @param tail
+ *            the tail of the list
+ * @param size
+ *            the size of the list
  * 
  */
 public class SinglyLinkedList {
@@ -57,7 +63,7 @@ public class SinglyLinkedList {
 			head = null;
 			tail = null;
 		} else {
-			head = temp;
+			temp = head;
 			head = head.getNext();
 		}
 
@@ -76,45 +82,55 @@ public class SinglyLinkedList {
 	 * @param element
 	 */
 
-	public void swap(SinglyLinkedListNode element) {
+	public void swap(Object data) {
 		SinglyLinkedListNode n = head;
-		SinglyLinkedListNode a, a_bef, a_aft, b, b_bef;
+		SinglyLinkedListNode a, a_bef, b, b_aft;
 
 		if (head == null || head.getNext() == null) {
 			System.out.println("Cannot swap.");
 			return;
 
 		} else {
-			if (n.getData() == element.getData()) {
-				a_bef = n;
-				a = a_bef.getNext();
-				a_aft = a.getNext();
-				b_bef = a;
-				b = a_aft;
+			if (n.getData() == data) {
+				a = n;
+				b = a.getNext();
+				b_aft = b.getNext();
 
-				a_bef.setNext(b);
 				b.setNext(a);
-				a.setNext(b_bef.getNext());
+				a.setNext(b_aft);
+				head = b;
+
 			}
 
 			else {
-				while (n.getNext().getData() != element.getData()) {
+				while (n.getNext().getData() != data) {
 					n = n.getNext();
 				}
 				a_bef = n;
 				a = a_bef.getNext();
-				a_aft = a.getNext();
-				b_bef = a;
-				b = a_aft;
+				b = a.getNext();
+				if (b == tail) {
+					tail = a;
+					
+					a_bef.setNext(b);
+					b.setNext(a);
+					a.setNext(null);
+				} else {
+					b_aft = b.getNext();
 
-				a_bef.setNext(b);
-				b.setNext(a);
-				a.setNext(b_bef.getNext());
+					a_bef.setNext(b);
+					b.setNext(a);
+					a.setNext(b_aft);
+				}
+
 			}
 		}
 
 	}
 
+	/**
+	 * prints the list information
+	 */
 	public void printList() {
 		if (head == null) {
 			System.out.println("List is Empty!");
@@ -142,7 +158,9 @@ public class SinglyLinkedList {
 		list.printList();
 		list.deQueue();
 		list.printList();
-		list.swap();
+		list.swap("2");
+		list.printList();
+		list.swap("5");
 		list.printList();
 
 	}
